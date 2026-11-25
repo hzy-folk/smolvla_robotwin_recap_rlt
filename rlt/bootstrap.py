@@ -3,8 +3,8 @@
 这个模块只做 `sys.path` 和环境变量设置，不导入任何重依赖，也不改变项目里
 任何既有文件的行为。任何 RLT 入口脚本第一件事就是调用 `bootstrap()`。
 
-注意路径优先级。项目 `scripts/` 目录里有一个叫 `dataset.py` 的模块，它是
-本项目的数据契约实现，而 lerobot 内部也有同名概念。把 `scripts/` 插在
+注意路径优先级。项目 `collection/` 目录里有一个叫 `dataset.py` 的模块，它是
+本项目的数据契约实现，而 lerobot 内部也有同名概念。把 `collection/` 插在
 `sys.path` 靠前的位置可以保证 `from dataset import ...` 解析到项目版本。
 """
 from __future__ import annotations
@@ -15,7 +15,7 @@ from pathlib import Path
 
 RLT_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = RLT_DIR.parent
-SCRIPTS_DIR = PROJECT_DIR / "scripts"
+SCRIPTS_DIR = PROJECT_DIR / "collection"
 
 # 项目既有的运行环境分布在这两个 site-packages 里，torch 和 lerobot 依赖都在。
 AUDIT_DIR = Path(os.environ.get("RLT_AUDIT_DIR", "/home/hzy/git/learn/feasibility_audit"))

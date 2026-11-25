@@ -16,7 +16,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "collection"))
 from dataset import ROOT
 from final_policy_data import FinalPolicyDataset, make_final_batch
 from robotwin_smol_data import DEFAULT_DATA, CONTRACT, FEATURES, RobotwinDataset, make_batch, sha

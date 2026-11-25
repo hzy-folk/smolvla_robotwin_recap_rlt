@@ -5,7 +5,7 @@ import os
 from fractions import Fraction
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'recap_runs' / 'visualizations'
 CAMERAS = ('head', 'left_wrist', 'right_wrist')
 

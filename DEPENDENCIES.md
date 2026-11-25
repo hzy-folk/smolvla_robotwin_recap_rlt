@@ -13,8 +13,8 @@
 
 本机兼容 LeRobot、基础权重和仿真环境主要位于 `/home/hzy/git/learn/feasibility_audit/`。部分脚本直接引用此路径；RLT支持 `RLT_AUDIT_DIR` 和 `RLT_EXTRA_SITE`，但这不代表所有路径都已参数化。
 
-RECAP 的已验证依赖版本、三种解释器的用途和预训练资产配置见 [RECAP说明](scripts/recap/README.md#环境)。流水线配置示例在 `configs/recap/pipeline.example.json`。已有完整 PiStar 检查点时可以通过 `value_init_checkpoint` 初始化，tokenizer仍必需。
+RECAP 的已验证依赖版本、三种解释器的用途和预训练资产配置见 [RECAP说明](recap/README.md#环境)。流水线配置示例在 `recap/configs/pipeline.example.json`。已有完整 PiStar 检查点时可以通过 `value_init_checkpoint` 初始化，tokenizer仍必需。
 
-RoboTwin普通微调使用 `scripts/robotwin_smol_model.py`，LIBERO使用 `scripts/smol_model.py`。两者动作维度、控制频率和图像处理不同，不可交换检查点。
+RoboTwin普通微调使用 `collection/robotwin_smol_model.py`，LIBERO使用 `collection/smol_model.py`。两者动作维度、控制频率和图像处理不同，不可交换检查点。
 
 第三方源码、模型、数据和论文保留各自授权；本仓库未另行替第三方授予许可证。

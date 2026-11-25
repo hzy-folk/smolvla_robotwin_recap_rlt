@@ -5,7 +5,7 @@
 ```bash
 cd /home/hzy/git/learn/project2/smolvla
 /home/hzy/git/learn/feasibility_audit/libero_venv/bin/python \
-  scripts/eval_smol_libero_osc7.py \
+  collection/eval_smol_libero_osc7.py \
   --checkpoint /你的训练输出目录/checkpoint_020000.pt \
   --output runs/libero_eval_train40_step20000 \
   --device cuda
@@ -48,7 +48,7 @@ cd /home/hzy/git/learn/project2/smolvla
 
 ```bash
 /home/hzy/git/learn/feasibility_audit/libero_venv/bin/python \
-  scripts/eval_smol_libero_osc7.py \
+  collection/eval_smol_libero_osc7.py \
   --check-scenes --output runs/libero_eval_train40_scene_check
 ```
 

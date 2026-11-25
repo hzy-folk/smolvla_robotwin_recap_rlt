@@ -10,17 +10,17 @@
 
 ## 统一启动
 
-从项目根目录运行。复制 `configs/recap/pipeline.example.json` 为自己的配置，填写三个解释器、数据目录、PiStar checkout 和预训练资产路径。配置中的相对路径均相对项目根目录。
+从项目根目录运行。复制 `recap/configs/pipeline.example.json` 为自己的配置，填写三个解释器、数据目录、PiStar checkout 和预训练资产路径。配置中的相对路径均相对项目根目录。
 
 ```bash
 # 只生成各阶段命令，不加载模型、不创建运行目录。
-python3 scripts/recap/run_pipeline.py --config configs/recap/my_pipeline.json --plan
+python3 recap/run_pipeline.py --config recap/configs/my_pipeline.json --plan
 
 # 真正执行；首次使用新的 output 目录。
-python3 scripts/recap/run_pipeline.py --config configs/recap/my_pipeline.json
+python3 recap/run_pipeline.py --config recap/configs/my_pipeline.json
 
 # 继续同一个配置：跳过完成阶段，训练阶段从本阶段检查点恢复。
-python3 scripts/recap/run_pipeline.py --config configs/recap/my_pipeline.json --resume
+python3 recap/run_pipeline.py --config recap/configs/my_pipeline.json --resume
 ```
 
 可用 `--from-stage` / `--through-stage` 限定阶段，名称以 `--plan` 输出为准。输出目录保存每阶段日志和 `pipeline_status.json`；流水线同时校验退出码和关键产物，不把“提前暂停”判为训练完成。修改配置后应使用新输出目录。
@@ -56,7 +56,7 @@ python3 scripts/recap/run_pipeline.py --config configs/recap/my_pipeline.json --
 当前模型封装仍使用本机 `feasibility_audit` 中的 LeRobot 源码和基础权重；这是本地流程恢复，不代表已经完成面向任意机器的打包。不要直接用最新版 LeRobot 替换本地兼容版本。测试环境的路径注入方式为：
 
 ```bash
-export PYTHONPATH=/home/hzy/git/learn/feasibility_audit/venv/lib/python3.10/site-packages:/home/hzy/git/learn/feasibility_audit/lerobot_stable_src:$PWD/scripts:$PWD/scripts/recap
+export PYTHONPATH=/home/hzy/git/learn/feasibility_audit/venv/lib/python3.10/site-packages:/home/hzy/git/learn/feasibility_audit/lerobot_stable_src:$PWD/collection:$PWD/recap
 ```
 
 ## 验证

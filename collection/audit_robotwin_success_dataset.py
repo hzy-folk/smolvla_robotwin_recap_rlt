@@ -19,9 +19,10 @@ def sha256(path):
 
 def replay(entry, root):
     import sys
-    audit = root.parents[3] / 'feasibility_audit'
+    from dataset import AUDIT
+    audit = AUDIT
     sys.path.insert(0, str(audit / 'robotwin_runs'))
-    sys.path.insert(0, str(root.parent.parent / 'scripts'))
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
     from robotwin_common import make_env
     from robotwin_qpos_scene import make_left_right_env
     from robotwin_smol_control import Controller

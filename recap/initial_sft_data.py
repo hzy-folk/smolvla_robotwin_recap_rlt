@@ -3,6 +3,8 @@ import hashlib
 import json
 import shutil
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "collection"))
 import numpy as np
 from robotwin_gripper_action import inward_targets, TIMING_RULE
 from robotwin_smol_data import RobotwinDataset, LEGACY_CONTRACT, CONTRACT, RECORDED_ACTION_CONTRACT, CAMERAS, sha

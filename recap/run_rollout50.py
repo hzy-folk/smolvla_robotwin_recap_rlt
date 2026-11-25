@@ -4,10 +4,10 @@ import json, subprocess, time, shutil, sys
 from pathlib import Path
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'data/robotwin_success_80'
 PYTHON = Path(sys.executable)
-INFER = ROOT / 'scripts/infer_smol_robotwin_qpos16.py'
+INFER = ROOT / 'collection/infer_smol_robotwin_qpos16.py'
 
 def write(path, obj):
     tmp = path.with_suffix(path.suffix + '.tmp'); tmp.write_text(json.dumps(obj, ensure_ascii=False, indent=2)); tmp.replace(path)

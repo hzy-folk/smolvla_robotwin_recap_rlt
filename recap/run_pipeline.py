@@ -7,8 +7,8 @@ from pathlib import Path
 import subprocess
 import sys
 
-ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / 'scripts/recap'
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ROOT / 'recap'
 STAGES = ('initial_sft', 'rollout', 'prepare_value', 'train_value', 'predict_value',
           'label_advantage', 'final_sft', 'evaluate')
 

@@ -11,7 +11,7 @@ import numpy as np
 import torch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path[:0] = [str(ROOT/'scripts/recap'), str(ROOT/'scripts')]
+sys.path[:0] = [str(ROOT/'recap'), str(ROOT/'collection')]
 from initial_sft_data import InitialSFTDataset
 from final_policy_data import FinalPolicyDataset, make_final_batch
 from robotwin_gripper_action import inward_targets, TIMING_RULE
@@ -22,7 +22,7 @@ from run_pipeline import commands, verify_stage, STAGES
 
 
 def run(script, *args):
-    subprocess.run([sys.executable, str(ROOT/'scripts/recap'/script), *map(str, args)], check=True)
+    subprocess.run([sys.executable, str(ROOT/'recap'/script), *map(str, args)], check=True)
 
 
 def main():
@@ -115,7 +115,7 @@ def main():
         np.testing.assert_allclose(data.statistics(torch)['observation.state']['mean'], train.mean(0))
         for ds in (data, restored):
             ds.stream.close()
-        config = json.loads((ROOT/'configs/recap/pipeline.example.json').read_text())
+        config = json.loads((ROOT/'recap/configs/pipeline.example.json').read_text())
         plan = commands(config)
         assert tuple(plan) == STAGES and '--value-data' in plan['final_sft']
         assert plan['rollout'][plan['rollout'].index('--split')+1] == 'train'

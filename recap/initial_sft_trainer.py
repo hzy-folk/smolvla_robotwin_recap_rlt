@@ -16,7 +16,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "collection"))
 from dataset import ROOT
 from robotwin_smol_data import DEFAULT_DATA, CONTRACT, FEATURES, RobotwinDataset, make_batch, sha
 from robotwin_smol_model import BASE, make, torch
@@ -128,8 +128,8 @@ def main():
         source_sha256={name: sha(path) for name, path in {
             'initial_sft_trainer.py': Path(__file__),
             'initial_sft_data.py': Path(__file__).with_name('initial_sft_data.py'),
-            'robotwin_smol_data.py': Path(__file__).parents[1] / 'robotwin_smol_data.py',
-            'robotwin_smol_model.py': Path(__file__).parents[1] / 'robotwin_smol_model.py'}.items()})
+            'robotwin_smol_data.py': Path(__file__).parents[1] / 'collection' / 'robotwin_smol_data.py',
+            'robotwin_smol_model.py': Path(__file__).parents[1] / 'collection' / 'robotwin_smol_model.py'}.items()})
     print(json.dumps(dict(event='configuration', **config), ensure_ascii=False), flush=True)
     model = make(stats).to(a.device)
     trainable = {n: v for n, v in model.named_parameters() if v.requires_grad}

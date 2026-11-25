@@ -6,6 +6,7 @@ import os
 import sys
 import time
 from pathlib import Path
+from collection_config import parse_task_args
 
 import cv2
 import numpy as np
@@ -374,7 +375,7 @@ def main():
     p.add_argument('--output', type=Path, default=ROOT / 'data/robotwin_success_qpos16_pilot3')
     p.add_argument('--count', type=int, default=3)
     p.add_argument('--first-seed', type=int, default=930000)
-    args = p.parse_args()
+    args = parse_task_args(p, "robotwin", "collection")
     # make_env changes cwd into RoboTwin; resolve before creating the env.
     args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=True)

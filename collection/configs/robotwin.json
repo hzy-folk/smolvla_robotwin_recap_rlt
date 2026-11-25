@@ -1,0 +1,17 @@
+{
+  "collection": {"count": 3, "first_seed": 930000},
+  "finetune": {
+    "steps": 24000,
+    "batch_size": 56,
+    "micro_batch": 56,
+    "warmup_steps": 1000,
+    "validation_every": 500,
+    "validation_windows": 128,
+    "save_at": "8000,16000,24000",
+    "save_every": 8000,
+    "report_every": 100,
+    "seed": 191,
+    "task_prompt": "stack the red block and then the green block.",
+    "advantage": "none"
+  }
+}

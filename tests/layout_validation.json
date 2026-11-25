@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-25",
+  "status": "passed",
+  "layout": {
+    "collection": "collection/; configs in collection/configs/",
+    "recap": "recap/; configs in recap/configs/",
+    "rlt": "rlt/; configs in rlt/configs/"
+  },
+  "old_to_new": {
+    "scripts/recap/": "recap/",
+    "configs/recap/": "recap/configs/",
+    "scripts/": "collection/"
+  },
+  "tests": {
+    "python_ast_files": 70,
+    "task_config_and_cli_override": "passed",
+    "project_root_from_other_cwd": "passed",
+    "recap_dispatcher_paths": "8/8 present",
+    "robotwin_collection": {
+      "success": true,
+      "frames": 344,
+      "seed": 940000
+    },
+    "libero_pro_collection": {
+      "success": true,
+      "frames": 151,
+      "seed": 0
+    },
+    "robotwin_ordinary_sft": "real forward/backward/optimizer step passed",
+    "libero_ordinary_sft": "real forward/backward/optimizer step passed",
+    "recap_policy": "real initial SFT, pause/resume and final conditional SFT passed",
+    "recap_closed_loop": "1 validation scene, 8 steps, no runtime errors",
+    "rlt_z": "1 step on real frozen SmolVLA features, saved new token",
+    "rlt_cpu_smoke": "passed",
+    "rlt_actor_closed_loop": "1 validation scene, 8 steps, no runtime errors",
+    "documentation_links": "passed"
+  },
+  "existing_artifacts": {
+    "files": 29115,
+    "moved_or_modified": 0,
+    "verification": "path, size, mtime_ns compared before and after"
+  },
+  "limits": [
+    "Small-step and short-rollout tests verify execution, not task success.",
+    "PiStar math and dependency environment unchanged; full value-model training not repeated for directory-only movement.",
+    "Historical logs and stored launch commands keep original paths; use the old_to_new mapping for new invocations."
+  ],
+  "logs": "回收站/20261125_layout_reorganization/"
+}

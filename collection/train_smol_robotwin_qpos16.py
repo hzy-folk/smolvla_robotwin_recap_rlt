@@ -6,11 +6,12 @@ import random
 import sys
 import time
 from pathlib import Path
+from collection_config import parse_task_args
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'scripts'))
+sys.path.insert(0, str(ROOT / 'collection'))
 from dataset import AUDIT  # noqa: E402
 from robotwin_smol_data import (  # noqa: E402
     CAMERAS, RobotwinDataset, make_batch, sha,
@@ -39,7 +40,7 @@ def parse_args():
     p.add_argument('--smoke-test', action='store_true',
                    help='run one forward/backward/optimizer step without saving or starting training')
     p.add_argument('--smoke-batch-size', type=int, default=1)
-    return p.parse_args()
+    return parse_task_args(p, "robotwin", "finetune")
 
 
 def language_with_advantage(language, condition):

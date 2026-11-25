@@ -14,7 +14,7 @@ DATA_ROOT = SMOL_ROOT / "data/robotwin_success_qpos16_formal100"
 DEFAULT_BASELINE = ROOT.parent / "rlt_runs/legacy_eval_exact_rlt_stage1_80_20261114/summary.json"
 ROBOTWIN_PYTHON = Path("/home/hzy/git/learn/feasibility_audit/robotwin_venv/bin/python")
 INFER = ROOT / "legacy_collect/scripts/infer_smol_robotwin_qpos16.py"
-GALLERY = SMOL_ROOT / "scripts/recap/generate_rlt_actor_100_gallery.py"
+GALLERY = SMOL_ROOT / "recap/generate_rlt_actor_100_gallery.py"
 
 
 def write_json(path: Path, payload: dict) -> None:

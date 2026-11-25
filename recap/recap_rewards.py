@@ -2,7 +2,7 @@ from __future__ import annotations
 
 try:
     from .recap_config import RecapConfig
-except ImportError:  # direct execution: python scripts/recap/prepare_recap_data.py
+except ImportError:  # direct execution: python recap/prepare_recap_value_dataset.py
     from recap_config import RecapConfig
 
 

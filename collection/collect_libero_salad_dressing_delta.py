@@ -7,6 +7,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from collection_config import parse_task_args
 
 import cv2
 import numpy as np
@@ -464,7 +465,7 @@ if __name__ == "__main__":
     parser.add_argument("--dressing-jitter-m", type=float, default=0.02)
     parser.add_argument("--approach-offset-min-m", type=float, default=APPROACH_OFFSET_MIN_M)
     parser.add_argument("--approach-offset-max-m", type=float, default=APPROACH_OFFSET_MAX_M)
-    args = parser.parse_args()
+    args = parse_task_args(parser, "libero", "collection")
     default_name = "libero_pro_object_task_salad_dressing_seed0" if args.benchmark == "pro" else "libero_salad_dressing_official_init_seed0"
     collect(
         args.seed,

@@ -1,0 +1,21 @@
+{
+  "collection": {
+    "seed": 0,
+    "benchmark": "standard",
+    "dressing_jitter_m": 0.02,
+    "approach_offset_min_m": 0.16,
+    "approach_offset_max_m": 0.20
+  },
+  "finetune": {
+    "steps": 20000,
+    "batch_size": 32,
+    "warmup_steps": 500,
+    "validation_fraction": 0.1,
+    "split_mode": "random",
+    "validation_every": 500,
+    "validation_windows": 64,
+    "save_every": 5000,
+    "report_every": 100,
+    "seed": 191
+  }
+}

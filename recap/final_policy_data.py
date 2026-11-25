@@ -2,11 +2,13 @@
 import hashlib
 import json
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "collection"))
 import cv2
 import numpy as np
 from robotwin_smol_data import RobotwinDataset, CONTRACT, RECORDED_ACTION_CONTRACT, CAMERAS, sha, observation_batch
 
-PROJECT = Path(__file__).resolve().parents[2]
+PROJECT = Path(__file__).resolve().parents[1]
 VALUE = PROJECT / 'recap_runs/value_round2_pistar_batch8_40000'
 ROLLOUT = PROJECT / 'recap_runs/rollout50_checkpoint020000_adv_positive'
 

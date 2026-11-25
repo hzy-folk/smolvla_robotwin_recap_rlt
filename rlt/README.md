@@ -66,11 +66,11 @@ python rlt/evaluate_actor_100.py --checkpoint "$SFT" --token "$TOKEN" \
   --actor-deterministic
 ```
 
-`evaluate_actor_100.py` 调用 `scripts/recap/generate_rlt_actor_100_gallery.py`，后者和共享画廊模块仍保留。模型与 SAPIEN 运行环境继续使用项目现有分离解释器；部分 worker/评估路径仍绑定本机环境，此次只清理脚本，没有修改训练算法或迁移环境。
+`evaluate_actor_100.py` 调用 `recap/generate_rlt_actor_100_gallery.py`，后者和共享画廊模块仍保留。模型与 SAPIEN 运行环境继续使用项目现有分离解释器；部分 worker/评估路径仍绑定本机环境，此次只清理脚本，没有修改训练算法或迁移环境。
 
 ## 清理与检查
 
-2026-11-24 移出的都是旧在线流程、对比实验调度器和一次性监控工具，保存在项目回收站，没有永久删除。原路径、SHA256 和逐文件原因见回收站的 `manifest.json`；审查结论见 [SCRIPT_AUDIT.md](../scripts/recap/SCRIPT_AUDIT.md)。全部 YAML 配置保留。
+2026-11-24 移出的都是旧在线流程、对比实验调度器和一次性监控工具，保存在项目回收站，没有永久删除。原路径、SHA256 和逐文件原因见回收站的 `manifest.json`；审查结论见 [SCRIPT_AUDIT.md](../recap/SCRIPT_AUDIT.md)。全部 YAML 配置保留。
 
 ```bash
 python rlt/tools/smoke_test.py

@@ -6,7 +6,7 @@ All observations, including validation, receive Advantage: positive.
 """
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "collection"))
 from initial_sft_data import InitialSFTDataset
 import initial_sft_trainer as trainer
 

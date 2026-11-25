@@ -11,6 +11,7 @@ import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
+from collection_config import parse_task_args
 
 import numpy as np
 
@@ -18,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 AUDIT_ROOT = ROOT.parents[1] / "feasibility_audit"
 FOLLOWUP_SITE = AUDIT_ROOT / "followup_vlm_venv/lib/python3.10/site-packages"
 LEROBOT_SRC = AUDIT_ROOT / "lerobot_stable_src"
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "collection"))
 sys.path.insert(0, str(FOLLOWUP_SITE))
 sys.path.insert(0, str(LEROBOT_SRC))
 from dataset import AUDIT  # noqa: E402
@@ -351,7 +352,7 @@ def parse_args():
                         help="one in-memory optimizer update; requires only one episode")
     parser.add_argument("--smoke-checkpoint", type=Path, default=None,
                         help="save the one-step smoke-test checkpoint to this path")
-    return parser.parse_args()
+    return parse_task_args(parser, "libero", "finetune")
 
 
 def validate(model, data, indices, language, device, count, seed):
