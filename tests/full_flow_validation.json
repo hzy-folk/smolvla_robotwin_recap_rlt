@@ -1,0 +1,166 @@
+{
+  "date": "2026-11-25",
+  "scope": "real-data bounded end-to-end verification; not a full experiment or success-rate estimate",
+  "raw_failure_data": {
+    "status": "skipped_missing_original_data",
+    "placeholder_manifest": "validation_runs/20261124_full_flow/missing_original_failure/manifest.json",
+    "fabricated_episodes": 0
+  },
+  "stages": {
+    "robotwin_collection": {
+      "status": "passed",
+      "seed": 940000,
+      "frames": 344,
+      "log": "robotwin_collect_attempt6.log"
+    },
+    "libero_pro_collection": {
+      "status": "passed",
+      "seed": 0,
+      "frames": 151,
+      "log": "libero_collect_attempt3.log"
+    },
+    "robotwin_audit_finalize": {
+      "status": "passed",
+      "episodes": 2,
+      "train": 1,
+      "validation": 1,
+      "logs": [
+        "robotwin_audit.log",
+        "robotwin_finalize.log"
+      ]
+    },
+    "robotwin_sft": {
+      "status": "passed",
+      "updates": 1,
+      "log": "ordinary_sft.log"
+    },
+    "libero_sft": {
+      "status": "passed",
+      "updates": 1,
+      "log": "libero_sft.log"
+    },
+    "libero_evaluation": {
+      "status": "passed",
+      "episodes": 1,
+      "steps": 5,
+      "summary": "libero_eval/summary.json"
+    },
+    "recap_initial_sft": {
+      "status": "passed",
+      "updates": 2,
+      "log": "initial_sft.log"
+    },
+    "recap_rollout": {
+      "status": "passed",
+      "episodes": 1,
+      "steps": 16,
+      "summary": "recap_rollout/summary.json"
+    },
+    "recap_value_prepare": {
+      "status": "passed",
+      "episodes": 3,
+      "frames": 670,
+      "log": "value_prepare.log"
+    },
+    "recap_value_train": {
+      "status": "passed",
+      "updates": 1,
+      "validation": "explicitly skipped in bounded train check",
+      "initial_weights": "retained step_00040000; optimizer reset",
+      "log": "value_train_device_fix.log"
+    },
+    "recap_value_predict": {
+      "status": "passed",
+      "frames": 670,
+      "log": "value_predict_gpu.log",
+      "device": "cuda",
+      "finite": true
+    },
+    "rlt_z_training": {
+      "status": "passed",
+      "updates": 1,
+      "synthetic": false,
+      "log": "z_real.log"
+    },
+    "rlt_three_stages": {
+      "status": "passed",
+      "stage1_records": 2,
+      "stage2_updates": 2,
+      "stage3_total_updates": 4,
+      "logs": [
+        "rlt_stage1.log",
+        "rlt_stage2.log",
+        "rlt_limit_stage3.log"
+      ]
+    },
+    "rlt_actor_evaluation": {
+      "status": "passed",
+      "episodes": 1,
+      "steps": 16,
+      "summary": "rlt_actor_eval/summary.json",
+      "limitation": "old baseline teacher differs; not a valid performance comparison"
+    },
+    "recap_adapter_regression": {
+      "status": "passed",
+      "log": "recap_regression_with_init_config.log",
+      "real_value_model": false
+    },
+    "recap_advantage": {
+      "status": "passed",
+      "frames": 670,
+      "labels": {
+        "positive": 335,
+        "negative": 335
+      },
+      "log": "recap_label.log"
+    },
+    "recap_final_sft": {
+      "status": "passed",
+      "updates": 1,
+      "validation_frames": 309,
+      "train_loss": 0.5696219801902771,
+      "validation_loss": 2.083368296906786,
+      "log": "final_sft.log"
+    },
+    "recap_value_full_validation": {
+      "status": "passed",
+      "frames": 309,
+      "updates": 1,
+      "log": "value_train_full_validation.log",
+      "validation_loss": 5.183033960633293,
+      "validation_value_mae": 0.08912726018342723
+    },
+    "recap_final_evaluation": {
+      "status": "passed",
+      "episodes": 1,
+      "steps": 16,
+      "errors": 0,
+      "summary": "recap_final_eval/summary.json"
+    }
+  },
+  "environment": {
+    "value_overlay": ".venv-recap-value-check (Python 3.11)",
+    "value_base_read_only": "../RPent/.venv-rpent-libero-pro",
+    "freeze": "value_environment.freeze.txt",
+    "limitations": [
+      "local PiStar checkout, simulation environments, official model assets and bridge remain external dependencies"
+    ]
+  },
+  "status": "passed_bounded_real_flow",
+  "recap_eight_stage_artifact_verification": "passed using run_pipeline.verify_stage for all 8 actual outputs; stages executed individually with explicit environments",
+  "limitations": [
+    "Small optimizer-step counts and short rollouts verify execution only, not learned task success.",
+    "Original failed demonstration dataset missing and skipped as authorized; one actual failed rollout remains in RECAP.",
+    "Pretrained SigLIP/Gemma standalone files unavailable; full retained PiStar checkpoint used for warm start, optimizer and step reset.",
+    "No independent-machine installation, full production training, or like-for-like historical baseline performance comparison verified."
+  ],
+  "changes": [
+    "accept collector scalar success without requiring a per-frame official_success array",
+    "allow audited datasets with >=2 episodes and configurable train/validation split size",
+    "configurable bounded RECAP rollout length",
+    "current-device Orbax weight restore and optional full-checkpoint warm start",
+    "pipeline warm-start and resume argument compatibility",
+    "RLT resumable parent dispatcher command metadata",
+    "RLT stage3 honors configured max_episode_steps"
+  ]
+}

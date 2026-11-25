@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv*/
+/data/
+/runs/
+/recap_runs/
+/rlt_runs/
+/回收站/
+*.pt
+*.pth
+*.safetensors
+*.mp4
+*.log
+*.pid
+
+/validation_runs/

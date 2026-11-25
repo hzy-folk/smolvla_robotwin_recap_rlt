@@ -1,0 +1,77 @@
+# RLT on SmolVLA / RoboTwin Piper 的默认配置。
+# 相对路径以本文件所在目录为基准。
+token:
+  num_tokens: 1
+  embed_dim: 512
+  num_layers: 2
+  num_heads: 8
+  mlp_ratio: 4.0
+  dropout: 0.0
+  z_source: image        # image 只压图像 token，对齐论文；full 压整段 prefix
+
+data:
+  stats_path: stats/robotwin_piper_stats.json
+  chunk_len: 8           # 必须 <= SmolVLA 的 chunk_size(16)
+  proprio_dim: 16
+  action_dim: 16
+  action_representation: abs   # abs 或 delta；delta 时夹爪维度不转增量
+  delta_exclude_dims: [6, 7, 14, 15]
+  num_cameras: 3
+  image_size: 256
+  language: "stack the red block and then the green block."
+
+actor_critic:
+  hidden_dim: 256
+  proprio_hidden_dim: 64
+  ref_hidden_dim: 256
+  num_layers: 2
+  fixed_std: 0.02
+  reference_dropout: 0.5
+  gamma: 0.99
+  learning_rate: 0.0001
+  batch_size: 256
+  tau: 0.005
+  actor_update_period: 2
+
+objective:
+  bc_weight: 5.0
+  q_weight: 0.1
+  delta_weight: 1.0
+  warmup_bc_weight: 10.0
+  warmup_q_weight: 0.1
+  warmup_delta_weight: 1.0
+  updates_per_sample: 5.0
+  n_step_chunks: 5
+  warmup_min_size: 200
+  warmup_updates: 5000
+
+runtime:
+  seed: 0
+  device: cuda
+  out_dir: ../rlt_runs/robotwin
+  snapshot_every: 100
+  checkpoint_every: 3305
+  replay_capacity: 50000
+  shutdown_flush_seconds: -1  # 采集完成后等待所有更新预算完成，再保存退出
+  feature_source: local          # local 进程内直连，remote 连 serve.py
+  server_url: "ws://127.0.0.1:9200"
+  service_host: "0.0.0.0"
+  service_port: 9200
+
+env:
+  env_factory: "rlt.env_robotwin:create_env"
+  # scene 模式复用旧评测 restore(npz)，按 train manifest 中的顺序循环。
+  reset_mode: scene
+  scenes: []
+  scene_manifest: ../../data/robotwin_success_qpos16_formal100/splits/train.json
+  seed_file: ""
+  scene_config: ""
+  episodes: 80          # 仅有限集数模式使用；scene 模式按 manifest 顺序循环
+  num_envs: 1
+  stop_when_buffer_full: true  # 循环采集 80 个 scene，直到经验池恰好填满
+  max_chunks: 47
+  max_episode_steps: 376 # 47 个完整 chunk；与 8 步动作块对齐
+  success_grace_steps: 0   # RoboTwin 首次判定成功时立即结束 episode
+  success_reward: 1.0
+  control_hz: 25.0
+  deterministic_actor: false

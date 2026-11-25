@@ -1,0 +1,75 @@
+# RLT Stage 2 comparison: BC weight 10 for the first 5,000 updates, then 5.
+token:
+  num_tokens: 1
+  embed_dim: 512
+  num_layers: 2
+  num_heads: 8
+  mlp_ratio: 4.0
+  dropout: 0.0
+  z_source: image
+
+data:
+  stats_path: stats/robotwin_piper_stats.json
+  chunk_len: 8
+  proprio_dim: 16
+  action_dim: 16
+  action_representation: abs
+  delta_exclude_dims: [6, 7, 14, 15]
+  num_cameras: 3
+  image_size: 256
+  language: "stack the red block and then the green block."
+
+actor_critic:
+  hidden_dim: 256
+  proprio_hidden_dim: 64
+  ref_hidden_dim: 256
+  num_layers: 2
+  fixed_std: 0.02
+  reference_dropout: 0.5
+  gamma: 0.99
+  learning_rate: 0.0001
+  batch_size: 256
+  tau: 0.005
+  actor_update_period: 2
+
+objective:
+  bc_weight: 5.0
+  q_weight: 0.1
+  delta_weight: 1.0
+  warmup_bc_weight: 10.0
+  warmup_q_weight: 0.1
+  warmup_delta_weight: 1.0
+  updates_per_sample: 5.0
+  n_step_chunks: 3
+  warmup_min_size: 200
+  warmup_updates: 5000
+
+runtime:
+  seed: 0
+  device: cuda
+  out_dir: ../rlt_runs/legacy_eval_exact_rlt_stage1_80_nstep5_batch256_bc10first5000_20261114
+  snapshot_every: 100
+  checkpoint_every: 3305
+  replay_capacity: 50000
+  shutdown_flush_seconds: -1
+  feature_source: local
+  server_url: "ws://127.0.0.1:9200"
+  service_host: "0.0.0.0"
+  service_port: 9200
+
+env:
+  env_factory: "rlt.env_robotwin:create_env"
+  reset_mode: scene
+  scenes: []
+  scene_manifest: ../../data/robotwin_success_qpos16_formal100/splits/train.json
+  seed_file: ""
+  scene_config: ""
+  episodes: 80
+  num_envs: 1
+  stop_when_buffer_full: true
+  max_chunks: 47
+  max_episode_steps: 376
+  success_grace_steps: 0
+  success_reward: 1.0
+  control_hz: 25.0
+  deterministic_actor: false
