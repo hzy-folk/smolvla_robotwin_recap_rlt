@@ -1,0 +1,31 @@
+{
+  "robotwin": {
+    "url": "https://github.com/RoboTwin-Platform/RoboTwin.git",
+    "revision": "ea8b21121ebb3cd201ff5b3fe361944ac94eda3f",
+    "directory": "third_party/RoboTwin",
+    "patch": "patches/robotwin.patch"
+  },
+  "libero": {
+    "url": "https://github.com/Lifelong-Robot-Learning/LIBERO.git",
+    "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+    "directory": "third_party/LIBERO",
+    "patch": null
+  },
+  "pistar": {
+    "url": "https://github.com/ybpy/pistar.git",
+    "revision": "d7b6ebdf41fdfeb368ef157965c1c41b7c056ddd",
+    "directory": "third_party/pistar",
+    "patch": "patches/pistar.patch"
+  },
+  "value_lerobot": {
+    "url": "https://github.com/huggingface/lerobot.git",
+    "revision": "0cf864870cf29f4738d3ade893e6fd13fbd7cdb5",
+    "install": "requirements/value.txt; isolated from model LeRobot 0.3.3"
+  },
+  "model_lerobot": {
+    "distribution": "lerobot[smolvla]",
+    "version": "0.3.3",
+    "repository": "https://github.com/huggingface/lerobot",
+    "install": "requirements/model.txt; includes lerobot/policies/smolvla source"
+  }
+}

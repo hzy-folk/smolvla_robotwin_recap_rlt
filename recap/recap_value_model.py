@@ -13,7 +13,8 @@ import types
 from pathlib import Path
 
 
-DEFAULT_PISTAR_ROOT = Path("/home/hzy/git/learn/vla/pi0.6*/pistar")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from runtime_config import PISTAR_ROOT as DEFAULT_PISTAR_ROOT
 
 
 def load_value_checkpoint(trainer, checkpoint_path, state):

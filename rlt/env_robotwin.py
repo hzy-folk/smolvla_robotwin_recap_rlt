@@ -54,9 +54,9 @@ def create_from_seed(seed: int, config_path: str | Path):
     import json
     import sys
 
-    from rlt.bootstrap import AUDIT_DIR
+    from rlt.bootstrap import SCRIPTS_DIR
 
-    runs_dir = AUDIT_DIR / "robotwin_runs"
+    runs_dir = SCRIPTS_DIR
     if str(runs_dir) not in sys.path:
         sys.path.insert(0, str(runs_dir))
 

@@ -45,19 +45,7 @@ python3 recap/run_pipeline.py --config recap/configs/my_pipeline.json --resume
 - 价值数据验证集沿用原始 split；rollout 仅来自训练场景。最终评估只从 validation 场景抽取，场景数须够用。
 - 最终策略输入逐样本追加 `Advantage: positive/negative`，原始成功数据也使用实际计算标签。训练集独立计算归一化统计。
 
-## 环境
-
-模型解释器需要项目当前兼容的 LeRobot、PyTorch、Transformers；仿真解释器需要 RoboTwin/SAPIEN、NumPy、OpenCV；价值解释器需要 PiStar 的 JAX/Flax/Optax 环境，以及 SigLIP、Gemma 和 Gemma tokenizer。
-
-已有完整 PiStar 价值检查点时，可在流水线配置设置 `value_init_checkpoint`，替代 `siglip`/`gemma` 两项；此方式载入已有权重并重新初始化优化器、从第 0 步开始。它与 `--resume` 的继续训练语义不同，tokenizer 仍必需。检查点加载明确映射到当前 JAX 设备，支持把旧 GPU 权重用于 CPU 验证。
-
-本机 2026-11-25 的 PiStar 验证使用 Python 3.11、JAX/JAXlib 0.5.3、Flax 0.10.2、Optax 0.2.4、Orbax 0.11.13、Kauldron 1.3.0、Grain 0.2.11、NumPy 1.26.4、Jaxtyping 0.2.36、Beartype 0.19.0、Transformers 4.53.2、ML Collections 1.0.0。PiStar 导入训练入口还需要旧 LeRobot commit `0cf864870cf29f4738d3ade893e6fd13fbd7cdb5`。CPU 环境使用 TensorFlow CPU 2.19.1，配套 protobuf 5.29.5、tensorflow-metadata 1.16.1、sentencepiece 0.2.0、PyArrow 19.0.1 和 datasets 3.6.0，避免混装最新版本产生导入错误。这是本机验证组合，尚不是独立的安装包。
-
-当前模型封装仍使用本机 `feasibility_audit` 中的 LeRobot 源码和基础权重；这是本地流程恢复，不代表已经完成面向任意机器的打包。不要直接用最新版 LeRobot 替换本地兼容版本。测试环境的路径注入方式为：
-
-```bash
-export PYTHONPATH=/home/hzy/git/learn/feasibility_audit/venv/lib/python3.10/site-packages:/home/hzy/git/learn/feasibility_audit/lerobot_stable_src:$PWD/collection:$PWD/recap
-```
+安装、依赖版本、权重和统一路径配置见 [环境文档](../DEPENDENCIES.md)。
 
 ## 验证
 

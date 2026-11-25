@@ -5,7 +5,7 @@ from pathlib import Path
 
 import numpy as np
 
-from dataset import AUDIT
+from dataset import SMOL_ROOT
 
 
 def restore(raw):
@@ -14,7 +14,7 @@ def restore(raw):
     # collector; feasibility_audit contains the simulator package, not this
     # task-specific scene helper.
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    sys.path.insert(1, str(AUDIT / 'robotwin_runs'))
+    sys.path.insert(1, str(SMOL_ROOT / 'collection'))
     from robotwin_common import make_env
     from envs.robot.robot import Robot
     from robotwin_qpos_scene import make_left_right_env

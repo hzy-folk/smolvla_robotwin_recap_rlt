@@ -15,9 +15,10 @@ from scipy.spatial.transform import Rotation
 
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDIT = ROOT.parents[1] / "feasibility_audit"
-LIBERO = AUDIT / "third_party" / "LIBERO-filtered"
-PRO_DATA = AUDIT / "third_party" / "LIBERO-Pro-task"
+from dataset import LIBERO_ROOT, LIBERO_PRO_ROOT, path, add_paths
+LIBERO = LIBERO_ROOT
+PRO_DATA = LIBERO_PRO_ROOT
+add_paths("sim")
 TASK = "pick_up_the_salad_dressing_and_place_it_in_the_basket"
 PRO_SOURCE_TASK = "pick_up_the_chocolate_pudding_and_place_it_in_the_basket"
 PRO_TASK_LANGUAGE = "Pick the salad dressing and place it in the basket"
@@ -30,8 +31,19 @@ MOVE_STALL_EPS_M = 0.0015
 MOVE_STALL_PATIENCE = 5
 
 os.environ.setdefault("MUJOCO_GL", "egl")
-os.environ.setdefault("LIBERO_CONFIG_PATH", str(AUDIT / "platform_runs" / "libero_config"))
-sys.path.insert(0, str(AUDIT / "libero_venv" / "lib" / "python3.10" / "site-packages"))
+os.environ.setdefault("LIBERO_CONFIG_PATH", str(path("libero_config")))
+config_dir = Path(os.environ["LIBERO_CONFIG_PATH"])
+config_dir.mkdir(parents=True, exist_ok=True)
+config_file = config_dir / 'config.yaml'
+if not config_file.exists():
+    import yaml
+    benchmark_root = LIBERO / 'libero/libero'
+    with config_file.open('x') as stream:
+        yaml.safe_dump({'benchmark_root': str(benchmark_root),
+                        'bddl_files': str(benchmark_root / 'bddl_files'),
+                        'init_states': str(benchmark_root / 'init_files'),
+                        'assets': str(benchmark_root / 'assets'),
+                        'datasets': str(ROOT / 'data')}, stream)
 sys.path.insert(0, str(LIBERO))
 from libero.libero import benchmark, get_libero_path  # noqa: E402
 from libero.libero.envs import OffScreenRenderEnv  # noqa: E402
@@ -401,7 +413,8 @@ def collect(
 
 
 def make_viewer(output: Path, arrays: dict, report: dict):
-    ffmpeg = AUDIT / "venv" / "lib" / "python3.10" / "site-packages" / "imageio_ffmpeg" / "binaries" / "ffmpeg-linux-x86_64-v7.0.2"
+    import imageio_ffmpeg
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
     for view in ("agentview", "wrist"):
         subprocess.run([
             str(ffmpeg), "-y", "-i", str(output / f"{view}.mp4"), "-an",

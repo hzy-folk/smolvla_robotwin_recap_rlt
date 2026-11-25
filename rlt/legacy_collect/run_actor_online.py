@@ -11,11 +11,15 @@ import sys
 import time
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 SMOL_ROOT = ROOT.parent
-ROBOTWIN_PYTHON = Path('/home/hzy/git/learn/feasibility_audit/robotwin_venv/bin/python')
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from runtime_config import path as runtime_path
+ROBOTWIN_PYTHON = runtime_path('robotwin_python')
 INFER = ROOT / 'legacy_collect/scripts/infer_smol_robotwin_qpos16.py'
 sys.path.insert(0, str(SMOL_ROOT))
 

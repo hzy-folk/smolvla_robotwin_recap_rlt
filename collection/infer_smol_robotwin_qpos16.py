@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from dataset import AUDIT
+from dataset import MODEL_PYTHON
 from robotwin_smol_data import CONTRACT, CAMERAS, future_action_chunk
 
 
@@ -15,7 +15,7 @@ class Worker:
     def __init__(self, checkpoint, device, flow_steps, output):
         self.output = output
         self.log = (output / 'model_worker.log').open('w')
-        command = [str(AUDIT / 'followup_vlm_venv/bin/python'), str(Path(__file__).with_name('robotwin_smol_worker.py')),
+        command = [str(MODEL_PYTHON), str(Path(__file__).with_name('robotwin_smol_worker.py')),
                    '--checkpoint', str(checkpoint.resolve()), '--device', device, '--flow-steps', str(flow_steps)]
         self.process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                         stderr=self.log, text=True, bufsize=1)

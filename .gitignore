@@ -14,3 +14,7 @@ __pycache__/
 *.pid
 
 /validation_runs/
+/runtime.local.json
+/.runtime/
+/third_party/
+/assets/

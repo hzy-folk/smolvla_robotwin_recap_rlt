@@ -1,0 +1,16 @@
+{
+  "libero_pro_task": {
+    "source": "https://github.com/Zxy-MLlab/LIBERO-PRO",
+    "runtime_key": "libero_pro_root",
+    "files": {
+      "bddl_files/libero_object_task/pick_up_the_chocolate_pudding_and_place_it_in_the_basket.bddl": {
+        "bytes": 2164,
+        "sha256": "654b63bc6d458491640687cbba5ed34b5933727b6230fc9cde1026af5c0344bf"
+      },
+      "init_files/libero_object_task/pick_up_the_chocolate_pudding_and_place_it_in_the_basket.pruned_init": {
+        "bytes": 2594,
+        "sha256": "8d8444e83a8e0067d4e686f56468c6c175be75d99812b7ca1ca7388d2993e444"
+      }
+    }
+  }
+}

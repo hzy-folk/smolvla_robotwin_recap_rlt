@@ -16,13 +16,8 @@ from collection_config import parse_task_args
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDIT_ROOT = ROOT.parents[1] / "feasibility_audit"
-FOLLOWUP_SITE = AUDIT_ROOT / "followup_vlm_venv/lib/python3.10/site-packages"
-LEROBOT_SRC = AUDIT_ROOT / "lerobot_stable_src"
-sys.path.insert(0, str(ROOT / "collection"))
-sys.path.insert(0, str(FOLLOWUP_SITE))
-sys.path.insert(0, str(LEROBOT_SRC))
-from dataset import AUDIT  # noqa: E402
+from dataset import MODEL_DIR, bootstrap_model
+bootstrap_model()
 from smol_model import make, torch  # noqa: E402
 
 
@@ -35,7 +30,7 @@ ACTION_DIM = 7
 ACTION_FORMAT = "libero.osc_pose.delta.v1"
 INSTRUCTION = "pick up the salad dressing"
 CAMERA_KEYS = ("image", "wrist_image")
-BASE_MODEL = AUDIT / "followup_runs/models/smolvla/model.safetensors"
+BASE_MODEL = MODEL_DIR / "model.safetensors"
 
 
 def _scalar(data, key, default=None):

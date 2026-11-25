@@ -10,6 +10,8 @@ import sys
 import time
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 import torch
 
 from rlt.config import load_config
@@ -20,7 +22,9 @@ DEFAULT_RUN = SMOL_ROOT / "rlt_runs/legacy_eval_exact_rlt_stage1_80_nstep5_batch
 DEFAULT_SFT = SMOL_ROOT / "recap_runs/formal_success100_batch56_24000_original_prompt/checkpoint_024000.pt"
 DEFAULT_TOKEN = SMOL_ROOT / "rlt_runs/formal_success100_batch56_24000_continued_10000/rlt_token_512_continued_step_025000.pt"
 DEFAULT_DATA = SMOL_ROOT / "data/robotwin_success_qpos16_formal100"
-PYTHON = Path("/home/hzy/git/learn/feasibility_audit/followup_vlm_venv/bin/python")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from runtime_config import path as runtime_path
+PYTHON = runtime_path('model_python')
 EXPECTED_STEPS = (3305, 6610, 9915, 13220, 16525)
 
 

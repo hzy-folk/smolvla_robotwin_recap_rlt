@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from dataset import AUDIT
+from dataset import MODEL_PYTHON
 from robotwin_smol_data import CONTRACT, CAMERAS, future_action_chunk
 
 
@@ -16,7 +16,7 @@ class Worker:
                  actor_snapshot=None, actor_deterministic=None):
         self.output = output
         self.log = (output / 'model_worker.log').open('w')
-        command = [str(AUDIT / 'followup_vlm_venv/bin/python'), str(Path(__file__).with_name('robotwin_smol_worker.py')),
+        command = [str(MODEL_PYTHON), str(Path(__file__).with_name('robotwin_smol_worker.py')),
                    '--checkpoint', str(checkpoint.resolve()), '--device', device, '--flow-steps', str(flow_steps)]
         if rlt_token:
             command += ['--rlt-token', str(rlt_token.resolve())]

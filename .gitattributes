@@ -1,0 +1,2 @@
+# Generated source patches preserve upstream context whitespace exactly.
+patches/*.patch -whitespace

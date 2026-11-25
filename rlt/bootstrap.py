@@ -17,17 +17,11 @@ RLT_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = RLT_DIR.parent
 SCRIPTS_DIR = PROJECT_DIR / "collection"
 
-# 项目既有的运行环境分布在这两个 site-packages 里，torch 和 lerobot 依赖都在。
-AUDIT_DIR = Path(os.environ.get("RLT_AUDIT_DIR", "/home/hzy/git/learn/feasibility_audit"))
-EXTRA_SITE = (
-    AUDIT_DIR / "venv/lib/python3.10/site-packages",
-    Path("/home/hzy/venvs/legged-model/lib/python3.10/site-packages"),
-)
-LEROBOT_SRC = AUDIT_DIR / "lerobot_stable_src"
-
-# 项目自带的 SmolVLA 权重与配置，全部只读引用，不做任何拷贝或覆盖。
-DEFAULT_MODEL_DIR = AUDIT_DIR / "followup_runs/models/smolvla"
-DEFAULT_VLM_DIR = AUDIT_DIR / "followup_runs/models/smolvlm"
+sys.path.insert(0, str(PROJECT_DIR))
+from runtime_config import bootstrap_model, path, MODEL_DIR, VLM_DIR
+LEROBOT_SRC = path('lerobot_src')
+DEFAULT_MODEL_DIR = MODEL_DIR
+DEFAULT_VLM_DIR = VLM_DIR
 
 
 def bootstrap(verbose: bool = False) -> dict[str, Path]:
@@ -36,22 +30,7 @@ def bootstrap(verbose: bool = False) -> dict[str, Path]:
         if path.is_dir() and str(path) not in sys.path:
             sys.path.insert(0, str(path))
 
-    for path in EXTRA_SITE:
-        if path.is_dir() and str(path) not in sys.path:
-            sys.path.append(str(path))
-
-    # 目前机器上没有任何一个环境同时具备 lerobot 全部依赖和 sapien。
-    # 需要时用这个变量按优先级补一个 site-packages，例如：
-    #   RLT_EXTRA_SITE=/path/to/robotwin_venv/lib/python3.10/site-packages
-    extra = os.environ.get("RLT_EXTRA_SITE", "")
-    for item in extra.split(os.pathsep):
-        if item and Path(item).is_dir() and item not in sys.path:
-            sys.path.append(item)
-
-    if LEROBOT_SRC.is_dir():
-        path = str(LEROBOT_SRC)
-        if path not in sys.path:
-            sys.path.insert(0, path)
+    bootstrap_model()
 
     # 离线运行，避免脚本在没有网络时卡在 hub 请求上。
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
@@ -61,7 +40,7 @@ def bootstrap(verbose: bool = False) -> dict[str, Path]:
         "rlt": RLT_DIR,
         "project": PROJECT_DIR,
         "scripts": SCRIPTS_DIR,
-        "audit": AUDIT_DIR,
+        "runtime": PROJECT_DIR,
         "lerobot_src": LEROBOT_SRC,
         "model": DEFAULT_MODEL_DIR,
         "vlm": DEFAULT_VLM_DIR,

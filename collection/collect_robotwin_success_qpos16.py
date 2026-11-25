@@ -11,7 +11,7 @@ from collection_config import parse_task_args
 import cv2
 import numpy as np
 
-from dataset import AUDIT
+from dataset import SMOL_ROOT
 
 ROOT = Path(__file__).resolve().parents[1]
 PY_TASK = "stack the red block and then the green block"
@@ -251,7 +251,7 @@ def sequential_expert(env, left_home_pose, joint_speed):
 
 def collect_one(seed, destination, episode_id=None):
     import sys
-    sys.path.insert(0, str(AUDIT / 'robotwin_runs'))
+    sys.path.insert(0, str(SMOL_ROOT / 'collection'))
     from robotwin_common import make_env
     from robotwin_qpos_scene import make_left_right_env
     from robotwin_smol_control import Controller

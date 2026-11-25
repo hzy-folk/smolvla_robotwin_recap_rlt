@@ -6,11 +6,15 @@ import subprocess
 import sys
 from tempfile import TemporaryDirectory
 
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from runtime_config import bootstrap_model
+bootstrap_model()
+
 import cv2
 import numpy as np
 import torch
 
-ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT/'recap'), str(ROOT/'collection')]
 from initial_sft_data import InitialSFTDataset
 from final_policy_data import FinalPolicyDataset, make_final_batch

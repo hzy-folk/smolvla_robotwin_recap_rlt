@@ -5,14 +5,19 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import sys
 import time
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 ROOT = Path(__file__).resolve().parent
 SMOL_ROOT = ROOT.parent
 DATA_ROOT = SMOL_ROOT / "data/robotwin_success_qpos16_formal100"
 DEFAULT_BASELINE = ROOT.parent / "rlt_runs/legacy_eval_exact_rlt_stage1_80_20261114/summary.json"
-ROBOTWIN_PYTHON = Path("/home/hzy/git/learn/feasibility_audit/robotwin_venv/bin/python")
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from runtime_config import path as runtime_path
+ROBOTWIN_PYTHON = runtime_path('robotwin_python')
 INFER = ROOT / "legacy_collect/scripts/infer_smol_robotwin_qpos16.py"
 GALLERY = SMOL_ROOT / "recap/generate_rlt_actor_100_gallery.py"
 

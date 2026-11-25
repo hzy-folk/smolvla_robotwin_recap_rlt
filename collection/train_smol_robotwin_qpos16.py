@@ -12,7 +12,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'collection'))
-from dataset import AUDIT  # noqa: E402
+from dataset import MODEL_DIR  # noqa: E402
 from robotwin_smol_data import (  # noqa: E402
     CAMERAS, RobotwinDataset, make_batch, sha,
 )
@@ -92,7 +92,7 @@ def checkpoint_payload(model, data, step, args, language, base_sha):
             'steps': args.steps, 'warmup_steps': args.warmup_steps,
         },
         'trainable_names': sorted(trainable),
-        'base_model': str(AUDIT / 'followup_runs/models/smolvla/model.safetensors'),
+        'base_model': str(MODEL_DIR / 'model.safetensors'),
     }
 
 
@@ -135,7 +135,7 @@ def main():
     scheduler_cfg = model.config.get_scheduler_preset()
     scheduler_cfg.num_warmup_steps = args.warmup_steps
     scheduler = scheduler_cfg.build(optimizer, args.steps)
-    base_path = AUDIT / 'followup_runs/models/smolvla/model.safetensors'
+    base_path = MODEL_DIR / 'model.safetensors'
     base_sha = sha(base_path)
 
     if args.smoke_test:

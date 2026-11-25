@@ -21,8 +21,8 @@ import traceback
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-BRIDGE = ROOT.parent / "smolvla_rpent_bridge"
-AUDIT = ROOT.parents[1] / "feasibility_audit"
+from dataset import bootstrap_model
+bootstrap_model()
 DEFAULT_DATA = ROOT / "data/libero_pro_salad_dressing_seeds00_49_current"
 
 
@@ -119,16 +119,8 @@ def load_backend(args):
     for key, expected in required.items():
         if contract.get(key) != expected:
             raise ValueError(f"checkpoint contract {key}={contract.get(key)!r}, expected {expected!r}")
-    del checkpoint
-    sys.path.insert(0, str(BRIDGE))
-    from bridge.backend import SmolVLABackend
-    from bridge.profiles import Profile
-    # Use the deployment profile, including checkpoint statistics and clipping.
-    os.environ["SMOLVLA_OSC7_CHECKPOINT"] = str(args.checkpoint.resolve())
-    profile = dataclasses.replace(Profile.load(BRIDGE / "profiles/osc7_template.json"), device=args.device)
-    backend = SmolVLABackend(profile, log=lambda text: print(text, flush=True))
-    backend.load()
-    return backend
+    from libero_policy import LiberoPolicy
+    return LiberoPolicy(checkpoint, args.device)
 
 
 def evaluate_scene(args, seed, backend):
@@ -194,7 +186,7 @@ def evaluate_scene(args, seed, backend):
         torch.manual_seed(args.random_seed + seed)
         np.random.seed(args.random_seed + seed)
         random.seed(args.random_seed + seed)
-        backend.policy.reset()
+        backend.model.reset()
         if not args.no_video:
             import imageio.v2 as imageio
             writer = imageio.get_writer(str(directory / "rollout.mp4"), fps=20, codec="libx264", macro_block_size=None)
@@ -257,21 +249,10 @@ def evaluate_scene(args, seed, backend):
 def main():
     args = arguments()
     if int(np.__version__.split(".")[0]) >= 2:
-        raise RuntimeError("LIBERO's installed robosuite requires the existing libero_venv NumPy 1.26 runtime; run /home/hzy/git/learn/feasibility_audit/libero_venv/bin/python")
+        raise RuntimeError("LIBERO requires NumPy 1.26; use the configured LIBERO environment")
     os.environ.setdefault("MUJOCO_GL", "egl")
     os.environ.setdefault("HF_HUB_OFFLINE", "1")
     os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
-    # Match the existing training runtime; do not create/install an environment.
-    # NumPy is already imported from libero_venv. Prefer the model runtime's
-    # Transformers/Torch, rather than libero_venv's older Transformers.
-    sys.path.insert(0, str(AUDIT / "followup_vlm_venv/lib/python3.10/site-packages"))
-    # The training venv inherits these locations, while libero_venv is isolated.
-    # Torch and requests need typing_extensions / urllib3 from these paths.
-    for package_dir in (site.getusersitepackages(), "/usr/lib/python3/dist-packages"):
-        if package_dir not in sys.path:
-            sys.path.append(package_dir)
-    for name in ("venv", "libero_venv"):
-        sys.path.append(str(AUDIT / name / "lib/python3.10/site-packages"))
     for seed in range(args.seed_start, args.seed_end + 1):
         path = args.data / f"seed_{seed:02d}/episode_000.npz"
         if not path.is_file():

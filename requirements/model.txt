@@ -1,0 +1,17 @@
+# Python 3.10; official LeRobot 0.3.3 includes the SmolVLA implementation.
+lerobot[smolvla]==0.3.3
+torch==2.7.1
+torchvision==0.22.1
+transformers==4.51.3
+numpy==1.26.4
+opencv-python==4.11.0.86
+opencv-python-headless==4.11.0.86
+datasets==3.6.0
+pyarrow==19.0.1
+safetensors==0.8.0
+PyYAML==6.0.3
+websockets==12.0
+imageio==2.37.0
+imageio-ffmpeg==0.6.0
+matplotlib==3.10.9
+scipy==1.15.3

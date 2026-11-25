@@ -2,13 +2,13 @@
 import json
 import numpy as np
 
-from dataset import AUDIT
+from dataset import MODEL_DIR, VLM_DIR
 from robotwin_smol_data import (CONTRACT, V2_CONTRACT, LEGACY_CONTRACT,
                                 RECORDED_ACTION_CONTRACT, FEATURES, observation_batch, sha)
 from smol_model import (torch, load_file, SmolVLAConfig, SmolVLAPolicy,
                         PolicyFeature, FeatureType, NormalizationMode)
 
-BASE = AUDIT / 'followup_runs/models/smolvla/model.safetensors'
+BASE = MODEL_DIR / 'model.safetensors'
 
 
 def make(stats):
@@ -18,7 +18,7 @@ def make(stats):
     raw['input_features'].update({key: PolicyFeature(FeatureType.VISUAL, (3, 256, 256)) for key in FEATURES})
     raw['output_features'] = {'action': PolicyFeature(FeatureType.ACTION, (16,))}
     raw['normalization_mapping'] = {k: NormalizationMode(v) for k, v in raw['normalization_mapping'].items()}
-    raw.update(vlm_model_name=str(AUDIT / 'followup_runs/models/smolvlm'), load_vlm_weights=False,
+    raw.update(vlm_model_name=str(VLM_DIR), load_vlm_weights=False,
         resize_imgs_with_padding=(256, 256), chunk_size=16, n_action_steps=8,
         tokenizer_max_length=64, num_steps=4, adapt_to_pi_aloha=False, use_delta_joint_actions_aloha=False)
     model = SmolVLAPolicy(SmolVLAConfig(**raw), dataset_stats=stats)

@@ -1,0 +1,58 @@
+--- a/src/openpi/models/model.py
++++ b/src/openpi/models/model.py
+@@ -33,6 +33,7 @@
+     PI0 = "pi0"
+     PI0_FAST = "pi0_fast"
+     PI05 = "pi05"
++    VALUE = "value"
+ 
+ 
+ # The model always expects these images
+--- a/src/openpi/models/value_model.py
++++ b/src/openpi/models/value_model.py
+@@ -122,6 +122,24 @@
+ 
+ class GemmaBlockRunner(Gemma3_270M):
+     """Extends Gemma3_270M to allow running the backbone with continuous embeddings."""
++
++    def _apply_attention(self, inputs, cache=None):
++        x = inputs.embeddings
++        old_cache = cache or {}
++        new_cache = {}
++        for index, block in enumerate(self.blocks):
++            layer_name = f"layer_{index}"
++            run_block = lambda hidden, positions, layer_cache, attention_mask: block(
++                hidden, positions, layer_cache, attention_mask
++            )
++            layer_cache, x = jax.checkpoint(run_block)(
++                x,
++                inputs.positions,
++                old_cache.get(layer_name),
++                inputs.attention_mask,
++            )
++            new_cache[layer_name] = layer_cache
++        return self.final_norm(x), new_cache
+     
+     def __call__(self, 
+                  embeddings: jax.Array | None = None, 
+--- a/src/openpi/training/weight_loaders.py
++++ b/src/openpi/training/weight_loaders.py
+@@ -311,8 +311,7 @@
+ 
+     def load(self, params: at.Params) -> at.Params:
+         logger.info(console.info("加载 SigLIP 权重 (from local checkpoint)..."))
+-        #siglip_path = "/data/train_dataset/checkpoint/siglip2-so400m-patch14-384-jax/siglip2_so400m14_224.npz"
+-        siglip_path = "/public/home/wangsenbao_it/litianheng/checkpoint/siglip2-so400m-patch14-224-jax/siglip2_so400m14_224.npz"
++        siglip_path = os.environ["PISTAR_SIGLIP_CHECKPOINT"]
+         siglip_params = None
+         if bv_utils is not None:
+             try:
+@@ -336,7 +335,7 @@
+             _summarize_param_match("SigLIP", siglip_params, params["img"])
+ 
+         logger.info(console.info("加载 Gemma 3 270M 权重 (from local Orbax checkpoint)..."))
+-        gemma_checkpoint_dir = "/public/home/wangsenbao_it/litianheng/checkpoint/gemma-3-270m"
++        gemma_checkpoint_dir = os.environ["PISTAR_GEMMA_CHECKPOINT"]
+         #gemma_checkpoint_dir = "/data/train_dataset/checkpoint/gemma-3-270m"
+ 
+         # 使用 Gemma 官方 ckpts loader（优先），必要时回退 Orbax

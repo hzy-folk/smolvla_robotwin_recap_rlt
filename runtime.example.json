@@ -1,0 +1,16 @@
+{
+  "model_dir": "assets/smolvla",
+  "vlm_dir": "assets/smolvlm",
+  "lerobot_src": "",
+  "robotwin_root": "third_party/RoboTwin",
+  "libero_root": "third_party/LIBERO",
+  "libero_pro_root": "third_party/LIBERO-Pro-task",
+  "pistar_root": "third_party/pistar",
+  "libero_config": ".runtime/libero",
+  "model_python": ".venvs/model/bin/python",
+  "robotwin_python": ".venvs/robotwin/bin/python",
+  "libero_python": ".venvs/libero/bin/python",
+  "value_python": ".venvs/value/bin/python",
+  "model_extra_paths": [],
+  "sim_extra_paths": []
+}
