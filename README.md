@@ -41,10 +41,10 @@ RoboTwin 使用三相机、25 Hz、16维状态和绝对动作、预测16帧执�
 
 ## RLT
 
-保留 z / RL Token 训练及其后的三阶段 Actor-Critic 训练，入口和顺序见 [rlt/README.md](rlt/README.md)。脚本清理记录见 [SCRIPT_AUDIT.md](recap/SCRIPT_AUDIT.md)。
+保留 z / RL Token 训练及其后的三阶段 Actor-Critic 训练，入口和顺序见 [rlt/README.md](rlt/README.md)。
 
 ## 验证
 
 2026-11-25 已用真实仿真和模型完成小步全流程验证，含两个采集器、普通微调、RECAP 真实价值训练/完整验证/推理/最终策略评估，以及 z 和 RLT 三阶段。详见 [验证记录](recap/README.md#2026-11-25-真实流程验证)。这是执行链验证，不代表完整训练效果或任务成功率。
 
-结果摘要见 [全流程验证](tests/full_flow_validation.json)。安装与外部资产见 [DEPENDENCIES.md](DEPENDENCIES.md)，完整命令顺序见 [RUNBOOK.md](RUNBOOK.md)，文件管理约定见 [REPOSITORY_CONTENTS.md](REPOSITORY_CONTENTS.md)。
+安装与外部资产见 [DEPENDENCIES.md](DEPENDENCIES.md)，完整命令顺序见 [RUNBOOK.md](RUNBOOK.md)，文件管理约定见 [REPOSITORY_CONTENTS.md](REPOSITORY_CONTENTS.md)。

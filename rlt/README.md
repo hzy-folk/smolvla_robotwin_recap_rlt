@@ -70,8 +70,6 @@ python rlt/evaluate_actor_100.py --checkpoint "$SFT" --token "$TOKEN" \
 
 ## 清理与检查
 
-2026-11-24 移出的都是旧在线流程、对比实验调度器和一次性监控工具，保存在项目回收站，没有永久删除。原路径、SHA256 和逐文件原因见回收站的 `manifest.json`；审查结论见 [SCRIPT_AUDIT.md](../recap/SCRIPT_AUDIT.md)。全部 YAML 配置保留。
-
 ```bash
 python rlt/tools/smoke_test.py
 ```

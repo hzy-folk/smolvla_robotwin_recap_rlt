@@ -18,3 +18,10 @@ __pycache__/
 /.runtime/
 /third_party/
 /assets/
+
+# Local verification and recovery records
+/tests/*_validation.json
+/recap/recovery_manifest.json
+/recap/RECOVERY.md
+/recap/SCRIPT_AUDIT.md
+*.log.*
